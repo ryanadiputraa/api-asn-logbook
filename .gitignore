@@ -1,5 +1,8 @@
 # dependecies
 node_modules/
 
+# config
+src/.env
+
 # build
 build/
