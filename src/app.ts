@@ -1,11 +1,12 @@
 import express from "express";
 import * as http from "http";
+import * as path from "path";
 import * as winston from "winston";
 import * as expressWinston from "express-winston";
 import cors from "cors";
 
 import * as dotnev from "dotenv";
-dotnev.config({ path: __dirname + "/.env" });
+dotnev.config({ path: path.join(__dirname, "..", ".env") });
 
 import { CommonRoutesConfig } from "./common/common.routes.config";
 import { UserRoutes } from "./users/users.routes.config";
@@ -13,7 +14,7 @@ import debug from "debug";
 
 const app = express();
 const server = http.createServer(app);
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 3000;
 const routes: Array<CommonRoutesConfig> = [];
 const debugLog: debug.IDebugger = debug("app");
 
