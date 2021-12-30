@@ -33,7 +33,7 @@ Backend API for Laporan ASN Web and Mobile App
 
 ```json
 {
-  "message": "Success",
+  "status": "Success",
   "code": 201,
   "error": "",
   "data": null
@@ -60,7 +60,7 @@ Backend API for Laporan ASN Web and Mobile App
 
 ```json
 {
-  "message": "Success",
+  "status": "Success",
   "code": 200,
   "error": "",
   "data": {
@@ -84,7 +84,7 @@ Backend API for Laporan ASN Web and Mobile App
 
 ```json
 {
-  "message": "Success",
+  "status": "Success",
   "code": 200,
   "error": "",
   "data": {
