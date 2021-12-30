@@ -9,14 +9,13 @@ import * as dotnev from "dotenv";
 dotnev.config({ path: path.join(__dirname, "..", ".env") });
 
 import { CommonRoutesConfig } from "./common/common.routes.config";
-import { UserRoutes } from "./users/users.routes.config";
-import debug from "debug";
+import { ProfileRoutes } from "./profile/profile.routes.config";
+import { AuthRoutes } from "./auth/auth.routes.config";
 
 const app = express();
 const server = http.createServer(app);
 const PORT = process.env.PORT || 3000;
 const routes: Array<CommonRoutesConfig> = [];
-const debugLog: debug.IDebugger = debug("app");
 
 const loggerOptions: expressWinston.LoggerOptions = {
   transports: [new winston.transports.Console()],
@@ -35,14 +34,11 @@ app.use(express.json());
 app.use(cors());
 app.use(expressWinston.logger(loggerOptions));
 
-routes.push(new UserRoutes(app));
+routes.push(new AuthRoutes(app));
+routes.push(new ProfileRoutes(app));
 
-const runningMessage = `server running at port ${PORT}`;
 server.listen(PORT, () => {
-  routes.forEach((route: CommonRoutesConfig) => {
-    debugLog(`configured route: ${route.getName()}`);
-  });
-  console.log(runningMessage);
+  console.log(`server running at port ${PORT}`);
 });
 
 export default app;

@@ -71,12 +71,12 @@ Backend API for Laporan ASN Web and Mobile App
 }
 ```
 
-### --- Users ---
+### --- Profile ---
 
-### USER DETAILS
+### USER PROFILE
 
 - Method : `GET`
-- Endpoint : `/v1/api/users/details`
+- Endpoint : `/v1/api/profile`
 - Header :
   - Content-Type : `application/json`
   - Accept : `application/json`
