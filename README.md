@@ -11,7 +11,7 @@ Backend API for Laporan ASN Web and Mobile App
 ### REGISTER
 
 - Method : `POST`
-- Endpoint : `/v1/auth/register`
+- Endpoint : `/auth/v1/register`
 - Header :
   - Content-Type : `application/json`
   - Accept : `application/json`
@@ -19,13 +19,13 @@ Backend API for Laporan ASN Web and Mobile App
 
 ```json
 {
-  "fullname": "String",
-  "nip": "String",
-  "position": "String",
-  "supervisor": "String",
-  "supervisor_position": "String",
-  "city": "String",
-  "password": "String"
+  "fullname": "John Doe",
+  "nip": "197902102006041002",
+  "position": "Staff Kepegawaian",
+  "supervisor": "Jane Doe",
+  "supervisor_position": "Kepala Bagian Kepegawaian",
+  "city": "Palu",
+  "password": "password"
 }
 ```
 
@@ -33,7 +33,7 @@ Backend API for Laporan ASN Web and Mobile App
 
 ```json
 {
-  "status": "Success",
+  "message": "Success",
   "code": 201,
   "error": "",
   "data": null
@@ -43,7 +43,7 @@ Backend API for Laporan ASN Web and Mobile App
 ### LOGIN
 
 - Method : `POST`
-- Endpoint : `/v1/auth/login`
+- Endpoint : `/auth/v1/login`
 - Header :
   - Content-Type : `application/json`
   - Accept : `application/json`
@@ -51,8 +51,8 @@ Backend API for Laporan ASN Web and Mobile App
 
 ```json
 {
-  "nip": "String",
-  "password": "String"
+  "nip": "197902102006041002",
+  "password": "password"
 }
 ```
 
@@ -60,13 +60,13 @@ Backend API for Laporan ASN Web and Mobile App
 
 ```json
 {
-  "status": "Success",
+  "message": "Success",
   "code": 200,
   "error": "",
   "data": {
-      "access_token": "String",
-      "expired_at": Number,
-      "refresh_token": "String"
+    "access_token": "O1ePdqJk5E9KE+H0BuAz54+e5hfcOUkG0xy5qJZ7dKQ=",
+    "expired_at": 60480,
+    "refresh_token": "rh6+nWqsV8g0zeYTwH4NsOvz/5rNoQVUtOg589+HbhY="
   }
 }
 ```
@@ -76,7 +76,7 @@ Backend API for Laporan ASN Web and Mobile App
 ### USER PROFILE
 
 - Method : `GET`
-- Endpoint : `/v1/api/profile`
+- Endpoint : `/api/v1/profile`
 - Header :
   - Content-Type : `application/json`
   - Accept : `application/json`
@@ -84,16 +84,16 @@ Backend API for Laporan ASN Web and Mobile App
 
 ```json
 {
-  "status": "Success",
+  "message": "Success",
   "code": 200,
   "error": "",
   "data": {
-    "fullname": "String",
-    "nip": "String",
-    "position": "String",
-    "supervisor": "String",
-    "supervisor_position": "String",
-    "city": "String"
+    "fullname": "John Doe",
+    "nip": "197902102006041002",
+    "position": "Staff Kepegawaian",
+    "supervisor": "Jane Doe",
+    "supervisor_position": "Kepala Bagian Keuangan",
+    "city": "Palu"
   }
 }
 ```
