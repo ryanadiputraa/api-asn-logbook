@@ -8,10 +8,10 @@ import { logger } from "../common/logger";
 class AuthService {
   async register(user: IRegisterDTO) {
     try {
-      user.id = uuidv4();
+      user._id = uuidv4();
       user.password = await argon2.hash(user.password);
-      AuthDAO.register(user);
-      return user.password;
+      await AuthDAO.register(user);
+      return user;
     } catch (error) {
       logger.error(`auth service: ${error}`);
       throw new Error(

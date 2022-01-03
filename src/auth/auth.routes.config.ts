@@ -1,7 +1,7 @@
 import express from "express";
 
 import { CommonRoutesConfig } from "../common/common.routes.config";
-import AuthController from "./auth.controller";
+import authController from "./auth.controller";
 
 export class AuthRoutes extends CommonRoutesConfig {
   constructor(app: express.Application) {
@@ -9,7 +9,7 @@ export class AuthRoutes extends CommonRoutesConfig {
   }
 
   configureRoutes(): express.Application {
-    this.app.route("/v1/auth/register").post(AuthController.register);
+    this.app.route("/auth/v1/register").post(authController.register);
 
     return this.app;
   }

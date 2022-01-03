@@ -1,12 +1,30 @@
 import { IRegisterDTO } from "./auth.dto";
+
 import { logger } from "../common/logger";
+import mongooseService from "../common/services/mongoose.service";
 
 class AuthDao {
-  users: Array<IRegisterDTO> = [];
+  Schema = mongooseService.getMongoose().Schema;
+  userSchema = new this.Schema(
+    {
+      _id: String,
+      fullname: String,
+      nip: String,
+      position: String,
+      supervisor: String,
+      supervisorPosition: String,
+      city: String,
+      password: { type: String, select: false },
+    },
+    { id: false }
+  );
 
-  async register(user: IRegisterDTO) {
+  User = mongooseService.getMongoose().model("Users", this.userSchema);
+
+  async register(userField: IRegisterDTO) {
     try {
-      this.users.push(user);
+      const user = new this.User(userField);
+      await user.save();
     } catch (error) {
       logger.error(`auth dao: ${error}`);
       throw new Error(

@@ -9,7 +9,7 @@ export class ProfileRoutes extends CommonRoutesConfig {
 
   configureRoutes(): express.Application {
     this.app
-      .route("/v1/api/profile")
+      .route("/api/v1/profile")
       .get((_: express.Request, res: express.Response) => {
         res.status(200).send({ message: "user details" });
       });

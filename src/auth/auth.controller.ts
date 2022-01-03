@@ -1,6 +1,6 @@
 import express from "express";
 
-import AuthService from "./auth.service";
+import authService from "./auth.service";
 import { logger } from "../common/logger";
 import { IHttpResponse, statusResponse } from "../common/response.interface";
 
@@ -9,15 +9,15 @@ class AuthController {
     let response: IHttpResponse;
 
     try {
-      await AuthService.register(req.body);
+      const registeredUser = await authService.register(req.body);
       response = {
         status: statusResponse.Success,
         code: 201,
         error: "",
-        data: null,
+        data: registeredUser,
       };
       res.status(response.code).send(response);
-    } catch (error: any) {
+    } catch (error) {
       logger.error(`auth controller: ${error}`);
       response = {
         status: statusResponse.BadRequest,

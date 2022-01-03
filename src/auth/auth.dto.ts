@@ -1,5 +1,5 @@
 export interface IRegisterDTO {
-  id: string;
+  _id: string;
   fullname: string;
   nip: string;
   position: string;
