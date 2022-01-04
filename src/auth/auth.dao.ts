@@ -33,9 +33,9 @@ class AuthDao {
     }
   }
 
-  async login(nip: string) {
+  async getUserLoginInfo(nip: string) {
     try {
-      return this.User.findOne({ nip: nip }).exec();
+      return this.User.findOne({ nip: nip }).select("_id nip +password").exec();
     } catch (error) {
       throw new Error(
         `auth dao: ${

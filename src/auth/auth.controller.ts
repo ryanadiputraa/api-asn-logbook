@@ -31,12 +31,16 @@ class AuthController {
   async login(req: express.Request, res: express.Response) {
     let response: IHttpResponse;
     try {
-      const user = await authService.login(req.body);
+      const tokens = await authService.login(req.body);
       response = {
-        message: !user ? statusResponse.BadRequest : statusResponse.Success,
-        code: !user ? 404 : 200,
-        error: !user ? "no user found" : "",
-        data: user,
+        message: statusResponse.Success,
+        code: 200,
+        error: "",
+        data: {
+          access_token: tokens.token,
+          expired_at: tokens.tokenExpirationInSeconds,
+          refresh_token: tokens.refreshToken,
+        },
       };
       res.status(response.code).json(response);
     } catch (error) {

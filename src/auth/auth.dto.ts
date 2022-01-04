@@ -10,6 +10,7 @@ export interface IRegisterDTO {
 }
 
 export interface ILoginDTO {
+  _id: string;
   nip: string;
   password: string;
 }

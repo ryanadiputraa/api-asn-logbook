@@ -15,7 +15,10 @@ export class AuthRoutes extends CommonRoutesConfig {
       .all(authMiddleware.validateRegisterPayload)
       .post(authController.register);
 
-    this.app.route("/auth/v1/login").post(authController.login);
+    this.app
+      .route("/auth/v1/login")
+      .all(authMiddleware.validateUserInfo)
+      .post(authController.login);
 
     return this.app;
   }

@@ -1,9 +1,13 @@
 import { v4 as uuidv4 } from "uuid";
-import argon2 from "argon2";
+import * as argon2 from "argon2";
+import jwt from "jsonwebtoken";
+import crypto from "crypto";
 
 import { ILoginDTO, IRegisterDTO } from "./auth.dto";
 import authDao from "./auth.dao";
 
+const jwtSecret = process.env.JWT_SECRET;
+const tokenExpirationInSeconds = 86400;
 class AuthService {
   async register(payload: IRegisterDTO) {
     try {
@@ -21,8 +25,20 @@ class AuthService {
 
   async login(payload: ILoginDTO) {
     try {
-      const user = await authDao.login(payload.nip);
-      return user;
+      const refreshId = payload._id + jwtSecret;
+      const salt = crypto.createSecretKey(crypto.randomBytes(16));
+      const refreshToken = crypto
+        .createHmac("sha512", salt)
+        .update(refreshId)
+        .digest("base64");
+
+      const token = jwt.sign(
+        { ...payload, refresh_key: salt.export() },
+        String(jwtSecret),
+        { expiresIn: tokenExpirationInSeconds }
+      );
+
+      return { token, tokenExpirationInSeconds, refreshToken };
     } catch (error) {
       throw new Error(
         `auth service: ${
