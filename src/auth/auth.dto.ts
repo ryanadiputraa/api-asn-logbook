@@ -4,7 +4,12 @@ export interface IRegisterDTO {
   nip: string;
   position: string;
   supervisor: string;
-  supervisorPosition: string;
+  supervisor_position: string;
   city: string;
+  password: string;
+}
+
+export interface ILoginDTO {
+  nip: string;
   password: string;
 }

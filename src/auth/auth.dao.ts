@@ -1,7 +1,7 @@
 import { IRegisterDTO } from "./auth.dto";
 
 import { logger } from "../common/logger";
-import mongooseService from "../common/services/mongoose.service";
+import mongooseService from "../common/mongoose.service";
 
 class AuthDao {
   Schema = mongooseService.getMongoose().Schema;
@@ -12,7 +12,7 @@ class AuthDao {
       nip: String,
       position: String,
       supervisor: String,
-      supervisorPosition: String,
+      supervisor_position: String,
       city: String,
       password: { type: String, select: false },
     },
@@ -21,14 +21,29 @@ class AuthDao {
 
   User = mongooseService.getMongoose().model("Users", this.userSchema);
 
-  async register(userField: IRegisterDTO) {
+  async register(payload: IRegisterDTO) {
     try {
-      const user = new this.User(userField);
+      const user = new this.User(payload);
       await user.save();
     } catch (error) {
-      logger.error(`auth dao: ${error}`);
       throw new Error(
-        error instanceof Error ? error.message : "fail to register"
+        `auth dao: ${
+          error instanceof Error ? error.message : "fail to register"
+        }`
+      );
+    }
+  }
+
+  async login(nip: string) {
+    try {
+      return this.User.findOne({ nip: nip }).exec();
+    } catch (error) {
+      throw new Error(
+        `auth dao: ${
+          error instanceof Error
+            ? error.message
+            : "fail to retrieve user information"
+        }`
       );
     }
   }

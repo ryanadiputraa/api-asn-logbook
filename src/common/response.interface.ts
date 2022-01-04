@@ -5,7 +5,7 @@ export enum statusResponse {
 }
 
 export interface IHttpResponse {
-  status: statusResponse;
+  message: statusResponse;
   code: number;
   error: string;
   data: any;

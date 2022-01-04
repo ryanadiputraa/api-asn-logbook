@@ -10,6 +10,7 @@ export class AuthRoutes extends CommonRoutesConfig {
 
   configureRoutes(): express.Application {
     this.app.route("/auth/v1/register").post(authController.register);
+    this.app.route("/auth/v1/login").post(authController.login);
 
     return this.app;
   }
