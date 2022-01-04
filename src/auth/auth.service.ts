@@ -3,7 +3,6 @@ import argon2 from "argon2";
 
 import { ILoginDTO, IRegisterDTO } from "./auth.dto";
 import authDao from "./auth.dao";
-import { logger } from "../common/logger";
 
 class AuthService {
   async register(payload: IRegisterDTO) {

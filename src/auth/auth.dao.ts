@@ -1,6 +1,5 @@
 import { IRegisterDTO } from "./auth.dto";
 
-import { logger } from "../common/logger";
 import mongooseService from "../common/mongoose.service";
 
 class AuthDao {

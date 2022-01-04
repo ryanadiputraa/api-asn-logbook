@@ -1,7 +1,7 @@
 export enum statusResponse {
   Success = "Success",
   BadRequest = "Bad Request",
-  InternnnalServerError = "Internal Server Error",
+  InternalServerError = "Internal Server Error",
 }
 
 export interface IHttpResponse {

@@ -7,7 +7,6 @@ import { IHttpResponse, statusResponse } from "../common/response.interface";
 class AuthController {
   async register(req: express.Request, res: express.Response) {
     let response: IHttpResponse;
-
     try {
       await authService.register(req.body);
       response = {
@@ -20,8 +19,8 @@ class AuthController {
     } catch (error) {
       logger.error(String(error));
       response = {
-        message: statusResponse.BadRequest,
-        code: 400,
+        message: statusResponse.InternalServerError,
+        code: 500,
         error: error instanceof Error ? error.message : "fail to register",
         data: null,
       };
@@ -31,7 +30,6 @@ class AuthController {
 
   async login(req: express.Request, res: express.Response) {
     let response: IHttpResponse;
-
     try {
       const user = await authService.login(req.body);
       response = {
@@ -44,8 +42,8 @@ class AuthController {
     } catch (error) {
       logger.error(String(error));
       response = {
-        message: statusResponse.BadRequest,
-        code: 400,
+        message: statusResponse.InternalServerError,
+        code: 500,
         error: error instanceof Error ? error.message : "fail to login",
         data: null,
       };
