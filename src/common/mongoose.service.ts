@@ -22,7 +22,7 @@ class MongooseService {
   connectWithRetry() {
     logger.info("Attempting MongoDB connection (will retry if needed)");
     mongoose
-      .connect("mongodb://localhost:27017/laporanasn-db", this.mongooseOptions)
+      .connect("mongodb://mongo:27017/laporanasn-db", this.mongooseOptions)
       .then(() => {
         logger.info("MongoDB connected");
       })
