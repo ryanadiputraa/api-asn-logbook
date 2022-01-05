@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import * as argon2 from "argon2";
+import * as bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
 
@@ -12,7 +12,8 @@ class AuthService {
   async register(payload: IRegisterDTO) {
     try {
       payload._id = uuidv4();
-      payload.password = await argon2.hash(payload.password);
+      const salt = await bcrypt.genSalt(10);
+      payload.password = await bcrypt.hash(payload.password, salt);
       await authDao.register(payload);
     } catch (error) {
       throw new Error(

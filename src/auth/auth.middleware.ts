@@ -1,5 +1,5 @@
 import express from "express";
-import * as argon2 from "argon2";
+import * as bcrypt from "bcrypt";
 
 import authDao from "./auth.dao";
 import { IHttpResponse, statusResponse } from "../common/response.interface";
@@ -43,7 +43,7 @@ class AuthMiddleware {
     try {
       const user = await authDao.getUserLoginInfo(req.body.nip);
       if (user) {
-        if (await argon2.verify(user.password, req.body.password)) {
+        if (await bcrypt.compare(req.body.password, user.password)) {
           // _id will be used for jwt claims
           req.body = {
             _id: user._id,
