@@ -33,7 +33,7 @@ class AuthService {
         .digest("base64");
 
       const token = jwt.sign(
-        { ...payload, refresh_key: salt.export() },
+        { userId: payload._id, refreshKey: salt.export() },
         String(jwtSecret),
         { expiresIn: tokenExpirationInSeconds }
       );
