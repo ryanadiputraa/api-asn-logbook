@@ -1,6 +1,7 @@
 export enum statusResponse {
   Success = "Success",
   BadRequest = "Bad Request",
+  Unauthorized = "Unauthorized",
   InternalServerError = "Internal Server Error",
 }
 

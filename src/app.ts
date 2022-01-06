@@ -9,7 +9,7 @@ import * as dotnev from "dotenv";
 dotnev.config({ path: path.join(__dirname, "..", ".env") });
 
 import { CommonRoutesConfig } from "./common/common.routes.config";
-import { ProfileRoutes } from "./profile/profile.routes.config";
+import { UsersRoutes } from "./users/users.routes.config";
 import { AuthRoutes } from "./auth/auth.routes.config";
 
 const app = express();
@@ -35,7 +35,7 @@ app.use(cors());
 app.use(expressWinston.logger(loggerOptions));
 
 routes.push(new AuthRoutes(app));
-routes.push(new ProfileRoutes(app));
+routes.push(new UsersRoutes(app));
 
 server.listen(PORT, () => {
   console.log(`server running at port ${PORT}`);

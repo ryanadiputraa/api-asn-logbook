@@ -2,6 +2,8 @@ import mongoose from "mongoose";
 
 import { logger } from "./logger";
 
+const mongoHost = Boolean(process.env.DEBUG) ? "localhost" : "mongo";
+
 class MongooseService {
   private count = 0;
   private mongooseOptions = {
@@ -22,7 +24,10 @@ class MongooseService {
   connectWithRetry() {
     logger.info("Attempting MongoDB connection (will retry if needed)");
     mongoose
-      .connect("mongodb://mongo:27017/laporanasn-db", this.mongooseOptions)
+      .connect(
+        `mongodb://${mongoHost}:27017/laporanasn-db`,
+        this.mongooseOptions
+      )
       .then(() => {
         logger.info("MongoDB connected");
       })
