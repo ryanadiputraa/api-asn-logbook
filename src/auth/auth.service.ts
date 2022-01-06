@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import crypto from "crypto";
 
 import { ILoginDTO, IRegisterDTO } from "./auth.dto";
-import authDao from "./auth.dao";
+import usersDao from "../users/users.dao";
 
 const jwtSecret = process.env.JWT_SECRET;
 const tokenExpirationInSeconds = 86400;
@@ -14,7 +14,7 @@ class AuthService {
       payload._id = uuidv4();
       const salt = await bcrypt.genSalt(10);
       payload.password = await bcrypt.hash(payload.password, salt);
-      await authDao.register(payload);
+      await usersDao.register(payload);
     } catch (error) {
       throw new Error(
         `auth service: ${

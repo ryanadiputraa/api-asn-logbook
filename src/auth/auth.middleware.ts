@@ -1,9 +1,9 @@
 import express from "express";
 import * as bcrypt from "bcrypt";
 
-import authDao from "./auth.dao";
 import { IHttpResponse, statusResponse } from "../common/response.interface";
 import { logger } from "../common/logger";
+import usersDao from "../users/users.dao";
 
 class AuthMiddleware {
   validateRegisterPayload(
@@ -41,7 +41,7 @@ class AuthMiddleware {
   ) {
     let response: IHttpResponse;
     try {
-      const user = await authDao.getUserLoginInfo(req.body.nip);
+      const user = await usersDao.getUserLoginInfo(req.body.nip);
       if (user) {
         if (await bcrypt.compare(req.body.password, user.password)) {
           // _id will be used for jwt claims

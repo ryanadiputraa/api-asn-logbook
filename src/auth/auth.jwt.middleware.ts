@@ -32,10 +32,10 @@ class AuthJwtMiddleware {
           next();
         }
       } catch (error) {
-        logger.error("jwt middleware: can't parse Bearer token header");
+        logger.error("jwt middleware: invalid access token");
         response = {
           message: statusResponse.Unauthorized,
-          code: 403,
+          code: 401,
           error: "can't parse Bearer token header",
           data: null,
         };
