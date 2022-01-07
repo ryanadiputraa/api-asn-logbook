@@ -83,8 +83,7 @@ Backend API for Laporan ASN Web and Mobile App
 
 ```json
 {
-  "nip": "197902102006041002",
-  "password": "password"
+  "refresh_token": "rh6+nWqsV8g0zeYTwH4NsOvz/5rNoQVUtOg589+HbhY="
 }
 ```
 
