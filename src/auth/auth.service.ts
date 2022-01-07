@@ -26,7 +26,21 @@ class AuthService {
 
   async login(payload: ILoginDTO): Promise<IAccessTokenDTO> {
     try {
-      const refreshId = payload._id + jwtSecret;
+      return await this.generateToken(payload._id);
+    } catch (error) {
+      throw new Error(
+        `auth service: ${
+          error instanceof Error
+            ? error.message
+            : "nip or password didn't match"
+        }`
+      );
+    }
+  }
+
+  generateToken(id: string): IAccessTokenDTO {
+    try {
+      const refreshId = id + jwtSecret;
       const salt = crypto.createSecretKey(crypto.randomBytes(16));
       const refreshToken = crypto
         .createHmac("sha512", salt)
@@ -34,7 +48,7 @@ class AuthService {
         .digest("base64");
 
       const token = jwt.sign(
-        { userId: payload._id, refreshKey: salt.export() },
+        { userId: id, refreshKey: salt.export() },
         String(jwtSecret),
         { expiresIn: tokenExpirationInSeconds }
       );
@@ -49,7 +63,7 @@ class AuthService {
         `auth service: ${
           error instanceof Error
             ? error.message
-            : "nip or password didn't match"
+            : "fail to generate access token"
         }`
       );
     }

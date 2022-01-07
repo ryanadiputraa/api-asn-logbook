@@ -36,7 +36,7 @@ class AuthJwtMiddleware {
         response = {
           message: statusResponse.Unauthorized,
           code: 401,
-          error: "can't parse Bearer token header",
+          error: "invalid access token",
           data: null,
         };
         return res.status(response.code).json(response);
@@ -60,22 +60,33 @@ class AuthJwtMiddleware {
   ) {
     let response: IHttpResponse<null>;
     if (req.body && req.body.refresh_token) {
-      const salt = crypto.createSecretKey(
-        Buffer.from(res.locals.jwt?.refreshKey?.data)
-      );
-      const hash = crypto
-        .createHmac("sha5", salt)
-        .update(res.locals.jwt?.userId + jwtSecret)
-        .digest("base64");
+      try {
+        const salt = crypto.createSecretKey(
+          Buffer.from(res.locals.jwt?.refreshKey?.data)
+        );
+        const hash = crypto
+          .createHmac("sha512", salt)
+          .update(res.locals.jwt.userId + jwtSecret)
+          .digest("base64");
 
-      if (hash === req.body.refresh_token) {
-        return next();
-      } else {
-        logger.error("jwt middleware: invalid refresh token");
+        if (hash === req.body.refresh_token) {
+          return next();
+        } else {
+          logger.error("jwt middleware: invalid refresh token");
+          response = {
+            message: statusResponse.BadRequest,
+            code: 401,
+            error: "invalid refresh token",
+            data: null,
+          };
+          res.status(response.code).json(response);
+        }
+      } catch (error) {
+        logger.error(error);
         response = {
-          message: statusResponse.BadRequest,
-          code: 401,
-          error: "invalid refresh token",
+          message: statusResponse.InternalServerError,
+          code: 500,
+          error: "fail to refresh token",
           data: null,
         };
         res.status(response.code).json(response);
@@ -91,10 +102,6 @@ class AuthJwtMiddleware {
       res.status(response.code).json(response);
     }
   }
-
-  // validateJWT(req: express.Request, res: express.Response, next: express.NextFunction) {
-
-  // }
 }
 
 export default new AuthJwtMiddleware();

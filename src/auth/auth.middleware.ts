@@ -6,11 +6,12 @@ import { logger } from "../common/logger";
 import usersDao from "../users/users.dao";
 
 class AuthMiddleware {
-  validateRegisterPayload(
+  async validateRegisterPayload(
     req: express.Request,
     res: express.Response,
     next: express.NextFunction
   ) {
+    let response: IHttpResponse<null>;
     const p = req.body;
     if (
       !p.hasOwnProperty("fullname") ||
@@ -22,7 +23,7 @@ class AuthMiddleware {
       !p.hasOwnProperty("password")
     ) {
       logger.error("auth middleware: missing required field");
-      const response: IHttpResponse<null> = {
+      response = {
         message: statusResponse.BadRequest,
         code: 400,
         error: "auth middleware: missing required field",
@@ -30,6 +31,16 @@ class AuthMiddleware {
       };
       res.status(400).json(response);
     } else {
+      const user = await usersDao.getUserLoginInfo(req.body.nip);
+      if (user.nip === req.body.nip) {
+        response = {
+          message: statusResponse.BadRequest,
+          code: 400,
+          error: "nip was already used",
+          data: null,
+        };
+        return res.status(response.code).json(response);
+      }
       next();
     }
   }
@@ -43,15 +54,7 @@ class AuthMiddleware {
     try {
       const user = await usersDao.getUserLoginInfo(req.body.nip);
       if (user) {
-        if (user.nip === req.body.nip) {
-          response = {
-            message: statusResponse.BadRequest,
-            code: 400,
-            error: "nip was already used",
-            data: null,
-          };
-          return res.status(response.code).json(response);
-        } else if (await bcrypt.compare(req.body.password, user.password)) {
+        if (await bcrypt.compare(req.body.password, user.password)) {
           // _id will be used for jwt claims
           req.body = {
             _id: user._id,

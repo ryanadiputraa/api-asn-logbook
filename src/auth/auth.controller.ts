@@ -55,6 +55,23 @@ class AuthController {
       res.status(response.code).json(response);
     }
   }
+
+  refresh(req: express.Request, res: express.Response) {
+    let response: IHttpResponse<IAccessTokenDTO>;
+    const tokens = authService.generateToken(res.locals.jwt?.userId);
+
+    response = {
+      message: statusResponse.Success,
+      code: 200,
+      error: "",
+      data: {
+        access_token: tokens.access_token,
+        expired_at: tokens.expired_at,
+        refresh_token: tokens.refresh_token,
+      },
+    };
+    res.status(response.code).json(response);
+  }
 }
 
 export default new AuthController();
