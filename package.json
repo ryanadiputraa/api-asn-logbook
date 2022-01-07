@@ -1,7 +1,7 @@
 {
-  "name": "api-laporan-asn",
+  "name": "api-asn-logbook",
   "version": "1.0.0",
-  "description": "backend api for laporan-asn app",
+  "description": "backend api for asn-logbook app",
   "main": "./build/app.js",
   "author": "Ryan Adi Putra",
   "license": "MIT",

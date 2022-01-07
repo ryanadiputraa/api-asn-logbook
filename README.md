@@ -71,6 +71,38 @@ Backend API for Laporan ASN Web and Mobile App
 }
 ```
 
+### REFRESH TOKEN
+
+- Method : `POST`
+- Endpoint : `/auth/v1/refresh`
+- Header :
+  - Content-Type : `application/json`
+  - Accept : `application/json`
+  - Authorization: `Bearer <access_token>`
+- body :
+
+```json
+{
+  "nip": "197902102006041002",
+  "password": "password"
+}
+```
+
+- response :
+
+```json
+{
+  "message": "Success",
+  "code": 200,
+  "error": "",
+  "data": {
+    "access_token": "O1ePdqJk5E9KE+H0BuAz54+e5hfcOUkG0xy5qJZ7dKQ=",
+    "expired_at": 86400,
+    "refresh_token": "rh6+nWqsV8g0zeYTwH4NsOvz/5rNoQVUtOg589+HbhY="
+  }
+}
+```
+
 ### --- Profile ---
 
 ### USER PROFILE
@@ -80,6 +112,7 @@ Backend API for Laporan ASN Web and Mobile App
 - Header :
   - Content-Type : `application/json`
   - Accept : `application/json`
+  - Authorization: `Bearer <access_token>`
 - response :
 
 ```json
