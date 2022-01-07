@@ -5,9 +5,9 @@ export enum statusResponse {
   InternalServerError = "Internal Server Error",
 }
 
-export interface IHttpResponse {
+export interface IHttpResponse<Type> {
   message: statusResponse;
   code: number;
   error: string;
-  data: any;
+  data: Type | null;
 }

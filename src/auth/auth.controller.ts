@@ -3,10 +3,11 @@ import express from "express";
 import authService from "./auth.service";
 import { logger } from "../common/logger";
 import { IHttpResponse, statusResponse } from "../common/response.interface";
+import { IAccessTokenDTO, ILoginDTO } from "./auth.dto";
 
 class AuthController {
   async register(req: express.Request, res: express.Response) {
-    let response: IHttpResponse;
+    let response: IHttpResponse<null>;
     try {
       await authService.register(req.body);
       response = {
@@ -29,7 +30,7 @@ class AuthController {
   }
 
   async login(req: express.Request, res: express.Response) {
-    let response: IHttpResponse;
+    let response: IHttpResponse<IAccessTokenDTO>;
     try {
       const tokens = await authService.login(req.body);
       response = {
@@ -37,9 +38,9 @@ class AuthController {
         code: 200,
         error: "",
         data: {
-          access_token: tokens.token,
-          expired_at: tokens.tokenExpirationInSeconds,
-          refresh_token: tokens.refreshToken,
+          access_token: tokens.access_token,
+          expired_at: tokens.expired_at,
+          refresh_token: tokens.refresh_token,
         },
       };
       res.status(response.code).json(response);

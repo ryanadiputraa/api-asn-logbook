@@ -1,5 +1,6 @@
-import { IRegisterDTO } from "../auth/auth.dto";
+import { ILoginDTO, IRegisterDTO } from "../auth/auth.dto";
 import mongooseService from "../common/mongoose.service";
+import { IProfileDTO } from "./users.dto";
 
 class UsersDao {
   Schema = mongooseService.getMongoose().Schema;
@@ -32,7 +33,7 @@ class UsersDao {
     }
   }
 
-  async getUserLoginInfo(nip: string) {
+  async getUserLoginInfo(nip: string): Promise<ILoginDTO> {
     try {
       return this.User.findOne({ nip: nip }).select("_id nip +password").exec();
     } catch (error) {
@@ -46,7 +47,7 @@ class UsersDao {
     }
   }
 
-  async getUserProfile(id: string) {
+  async getUserProfile(id: string): Promise<IProfileDTO> {
     try {
       return this.User.findOne({ _id: id }).exec();
     } catch (error) {

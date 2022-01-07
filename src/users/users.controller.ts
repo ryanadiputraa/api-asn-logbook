@@ -2,11 +2,12 @@ import express from "express";
 
 import { logger } from "../common/logger";
 import { IHttpResponse, statusResponse } from "../common/response.interface";
+import { IProfileDTO } from "./users.dto";
 import usersService from "./users.service";
 
 class UsersController {
   async getUserProfile(req: express.Request, res: express.Response) {
-    let response: IHttpResponse;
+    let response: IHttpResponse<IProfileDTO>;
     try {
       const userProfile = await usersService.getUserProfile(
         res.locals.jwt?.userId
@@ -15,7 +16,14 @@ class UsersController {
         message: statusResponse.Success,
         code: 200,
         error: "",
-        data: userProfile,
+        data: {
+          fullname: userProfile.fullname,
+          nip: userProfile.nip,
+          position: userProfile.position,
+          supervisor: userProfile.supervisor,
+          supervisor_position: userProfile.supervisor_position,
+          city: userProfile.city,
+        },
       };
       res.status(200).json(response);
     } catch (error) {

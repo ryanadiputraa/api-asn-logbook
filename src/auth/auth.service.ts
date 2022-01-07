@@ -3,7 +3,7 @@ import * as bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
 
-import { ILoginDTO, IRegisterDTO } from "./auth.dto";
+import { IAccessTokenDTO, ILoginDTO, IRegisterDTO } from "./auth.dto";
 import usersDao from "../users/users.dao";
 
 const jwtSecret = process.env.JWT_SECRET;
@@ -24,7 +24,7 @@ class AuthService {
     }
   }
 
-  async login(payload: ILoginDTO) {
+  async login(payload: ILoginDTO): Promise<IAccessTokenDTO> {
     try {
       const refreshId = payload._id + jwtSecret;
       const salt = crypto.createSecretKey(crypto.randomBytes(16));
@@ -39,7 +39,11 @@ class AuthService {
         { expiresIn: tokenExpirationInSeconds }
       );
 
-      return { token, tokenExpirationInSeconds, refreshToken };
+      return {
+        access_token: token,
+        expired_at: tokenExpirationInSeconds,
+        refresh_token: refreshToken,
+      };
     } catch (error) {
       throw new Error(
         `auth service: ${

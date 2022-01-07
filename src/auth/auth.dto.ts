@@ -14,3 +14,9 @@ export interface ILoginDTO {
   nip: string;
   password: string;
 }
+
+export interface IAccessTokenDTO {
+  access_token: string;
+  expired_at: number;
+  refresh_token: string;
+}

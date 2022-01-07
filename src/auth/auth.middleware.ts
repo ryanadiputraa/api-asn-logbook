@@ -22,7 +22,7 @@ class AuthMiddleware {
       !p.hasOwnProperty("password")
     ) {
       logger.error("auth middleware: missing required field");
-      const response: IHttpResponse = {
+      const response: IHttpResponse<null> = {
         message: statusResponse.BadRequest,
         code: 400,
         error: "auth middleware: missing required field",
@@ -39,11 +39,19 @@ class AuthMiddleware {
     res: express.Response,
     next: express.NextFunction
   ) {
-    let response: IHttpResponse;
+    let response: IHttpResponse<null>;
     try {
       const user = await usersDao.getUserLoginInfo(req.body.nip);
       if (user) {
-        if (await bcrypt.compare(req.body.password, user.password)) {
+        if (user.nip === req.body.nip) {
+          response = {
+            message: statusResponse.BadRequest,
+            code: 400,
+            error: "nip was already used",
+            data: null,
+          };
+          return res.status(response.code).json(response);
+        } else if (await bcrypt.compare(req.body.password, user.password)) {
           // _id will be used for jwt claims
           req.body = {
             _id: user._id,

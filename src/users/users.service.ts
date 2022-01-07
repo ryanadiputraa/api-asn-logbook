@@ -1,7 +1,8 @@
 import usersDao from "./users.dao";
+import { IProfileDTO } from "./users.dto";
 
 class UserService {
-  async getUserProfile(id: string) {
+  async getUserProfile(id: string): Promise<IProfileDTO> {
     try {
       return await usersDao.getUserProfile(id);
     } catch (error) {

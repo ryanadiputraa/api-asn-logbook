@@ -14,7 +14,7 @@ class AuthJwtMiddleware {
     res: express.Response,
     next: express.NextFunction
   ) {
-    let response: IHttpResponse;
+    let response: IHttpResponse<null>;
     if (req.headers["authorization"]) {
       try {
         const authorization = req.headers["authorization"].split(" ");
@@ -58,7 +58,7 @@ class AuthJwtMiddleware {
     res: express.Response,
     next: express.NextFunction
   ) {
-    let response: IHttpResponse;
+    let response: IHttpResponse<null>;
     if (req.body && req.body.refresh_token) {
       const salt = crypto.createSecretKey(
         Buffer.from(res.locals.jwt?.refreshKey?.data)
