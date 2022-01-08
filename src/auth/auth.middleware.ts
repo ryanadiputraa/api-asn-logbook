@@ -32,7 +32,7 @@ class AuthMiddleware {
       res.status(400).json(response);
     } else {
       const user = await usersDao.getUserLoginInfo(req.body.nip);
-      if (user.nip === req.body.nip) {
+      if (user) {
         response = {
           message: statusResponse.BadRequest,
           code: 400,
