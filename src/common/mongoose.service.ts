@@ -2,10 +2,7 @@ import mongoose from "mongoose";
 
 import { logger } from "./logger";
 
-const mongoHost = Boolean(process.env.LOCAL_DB) ? "localhost" : "mongo";
-const localMongoURI = `mongodb://${mongoHost}:27017/laporanasn-db`;
-const cloudMongoURI = `mongodb://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@laporan-asn-shard-00-00.ulnkp.mongodb.net:27017,laporan-asn-shard-00-01.ulnkp.mongodb.net:27017,laporan-asn-shard-00-02.ulnkp.mongodb.net:27017/${process.env.DB_NAME}?ssl=true&replicaSet=atlas-uf99ze-shard-0&authSource=admin&retryWrites=true&w=majority`;
-
+const dbConnection = String(process.env.DB_CONNECTION);
 class MongooseService {
   private count = 0;
   private mongooseOptions = {
@@ -25,10 +22,7 @@ class MongooseService {
   connectWithRetry() {
     logger.info("Attempting MongoDB connection (will retry if needed)");
     mongoose
-      .connect(
-        process.env.STAGE === "prod" ? cloudMongoURI : localMongoURI,
-        this.mongooseOptions
-      )
+      .connect(dbConnection, this.mongooseOptions)
       .then(() => {
         logger.info("MongoDB connected");
       })

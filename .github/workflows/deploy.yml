@@ -9,6 +9,24 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Create env file
+          run: |
+          touch .env
+          echo PORT=8080 >> .env
+          echo DEBUG=true >> .env
+          echo JWT_SECRET=${{secrets.JWT_SECRET}} >> .env
+          echo DB_CONNECTION=${{secrets.DB_CONNECTION}} >> .env
+
+          echo "cat .env"
+          cat .env
+
+          echo "ls -a ."
+          ls -a .
+
+          echo "ls -a ${{ github.workspace }}"
+          ls -a ${{ github.workspace }}
+        shell: bash
+
       - uses: actions/checkout@v2
       - uses: akhileshns/heroku-deploy@v3.12.12
         with:
