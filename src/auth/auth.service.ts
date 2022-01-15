@@ -7,7 +7,7 @@ import { IAccessTokenDTO, ILoginDTO, IRegisterDTO } from "./auth.dto";
 import usersDao from "../users/users.dao";
 
 const jwtSecret = process.env.JWT_SECRET;
-const tokenExpirationInSeconds = 86400;
+const tokenExp = 3600;
 class AuthService {
   async register(payload: IRegisterDTO) {
     try {
@@ -46,16 +46,19 @@ class AuthService {
         .createHmac("sha512", salt)
         .update(refreshId)
         .digest("base64");
+      const expiredToken = Number(
+        ((Date.now() + 3600 * 1000) / 1000).toFixed()
+      );
 
       const token = jwt.sign(
         { userId: id, refreshKey: salt.export() },
         String(jwtSecret),
-        { expiresIn: tokenExpirationInSeconds }
+        { expiresIn: tokenExp }
       );
 
       return {
         access_token: token,
-        expired_at: tokenExpirationInSeconds,
+        expired_at: expiredToken,
         refresh_token: refreshToken,
       };
     } catch (error) {

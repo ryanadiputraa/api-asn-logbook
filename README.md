@@ -65,7 +65,7 @@ Backend API for Laporan ASN Web and Mobile App
   "error": "",
   "data": {
     "access_token": "O1ePdqJk5E9KE+H0BuAz54+e5hfcOUkG0xy5qJZ7dKQ=",
-    "expired_at": 86400,
+    "expired_at": 1642217600,
     "refresh_token": "rh6+nWqsV8g0zeYTwH4NsOvz/5rNoQVUtOg589+HbhY="
   }
 }

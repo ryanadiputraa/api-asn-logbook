@@ -3,7 +3,7 @@ import express from "express";
 import authService from "./auth.service";
 import { logger } from "../common/logger";
 import { IHttpResponse, statusResponse } from "../common/response.interface";
-import { IAccessTokenDTO, ILoginDTO } from "./auth.dto";
+import { IAccessTokenDTO } from "./auth.dto";
 
 class AuthController {
   async register(req: express.Request, res: express.Response) {
