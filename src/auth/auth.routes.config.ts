@@ -23,7 +23,6 @@ export class AuthRoutes extends CommonRoutesConfig {
 
     this.app
       .route("/auth/v1/refresh")
-      .all(authJwtMiddleware.validateJWT)
       .all(authJwtMiddleware.validateRefresh)
       .post(authController.refresh);
 
