@@ -10,12 +10,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Create env file
-          run: |
+        env:
+          PORT: 8080
+          DEBUG: true
+          JWT_SECRET: ${{secrets.JWT_SECRET}}
+          DB_CONNECTION: ${{secrets.DB_CONNECTION}}
+        run: |
           touch .env
-          echo PORT=8080 >> .env
-          echo DEBUG=true >> .env
-          echo JWT_SECRET=${{secrets.JWT_SECRET}} >> .env
-          echo DB_CONNECTION=${{secrets.DB_CONNECTION}} >> .env
+          echo PORT="$PORT" >> .env
+          echo DEBUG="$DEBUG" >> .env
+          echo JWT_SECRET="$JWT_SECRET" >> .env
+          echo DB_CONNECTION="$DB_CONNECTION" >> .env
 
           echo "cat .env"
           cat .env
